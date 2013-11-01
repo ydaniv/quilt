@@ -1,6 +1,14 @@
-from fabric.api import task, sudo
-from fabfile.utilities import notify, warn, alert
-from fabfile.config import CONFIG
+from fabric.api import task, sudo, run, prefix
+from fabulous.utilities import notify, warn, alert
+from fabulous.config import CONFIG, WORKON, DEACTIVATE
+
+
+@task
+def initial_data(data_files=CONFIG['db_initial_data']['remote']):
+    with prefix(WORKON):
+        for f in data_files:
+            run('python manage.py loaddata ' + f)
+        run(DEACTIVATE)
 
 
 @task
@@ -26,3 +34,16 @@ def rebuild(user=CONFIG['db_user'], name=CONFIG['db_name']):
 def createuser(name=CONFIG['db_user']):
     notify(u'Creating a new database user.')
     sudo('createuser --createdb {name}'.format(name=name))
+
+
+@task
+def load(source=CONFIG['db_dump_file']):
+    notify(u'Loading data into the database.')
+    rebuild()
+    run('psql ' + CONFIG['db_name'] + ' < ' + source)
+
+
+@task
+def dump(destination=CONFIG['db_dump_file']):
+    notify(u'Creating a dump of the current database.')
+    run('pg_dump ' + CONFIG['db_name'] + ' > ' + destination)

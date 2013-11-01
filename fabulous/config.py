@@ -1,8 +1,8 @@
 import datetime
 from fabric.api import env
 from fabric.contrib import django
-#django.project('')
-#from django.conf import settings
+django.project('')
+from django.conf import settings
 
 
 env.use_ssh_config = True
@@ -21,9 +21,10 @@ CONFIG = {
     'db_name': '',
     'db_user': env.user,
     'db_dump_file': '',
-    'dataset_root': '',
-    'dataset_repo': '',
-    'dataset_branch': '',
+    'db_initial_data': {
+        'local': [],
+        'remote': [],
+    },
     'app_location': '127.0.0.1',
     'app_port': 9000,
     'app_workers': 4,
@@ -41,6 +42,17 @@ CONFIG = {
     'redis_error_log': '',
     'timestamp': datetime.datetime.now(),
 }
+
+SENSITIVE = {
+    'password': '',
+    'secret_key': '',
+    'email_user': '',
+    'email_password': '',
+}
+
+CONFIG.update(settings.FABULOUS_CONFIG)
+
+CONFIG.update(settings.FABULOUS_SENSITIVE)
 
 WORKON = 'workon ' + CONFIG['project_name']
 

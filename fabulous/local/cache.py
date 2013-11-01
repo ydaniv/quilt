@@ -1,5 +1,5 @@
 from fabric.api import task, local
-from fabfile.utilities import alert
+from fabulous.utilities import alert
 
 
 @task

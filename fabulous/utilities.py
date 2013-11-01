@@ -4,7 +4,7 @@ import random
 from fabric.api import puts
 from fabric.colors import red, green, yellow
 from fabric.contrib import django
-from fabfile.config import CONFIG
+from fabulous.config import CONFIG
 
 django.project('')
 from django.conf import settings
