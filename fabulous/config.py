@@ -1,8 +1,8 @@
 import datetime
 from fabric.api import env
-from fabric.contrib import django
-django.project('')
-from django.conf import settings
+#from fabric.contrib import django
+#django.project('')
+#from django.conf import settings
 
 
 env.use_ssh_config = True
@@ -50,9 +50,9 @@ SENSITIVE = {
     'email_password': '',
 }
 
-CONFIG.update(settings.FABULOUS_CONFIG)
+#CONFIG.update(settings.FABULOUS_CONFIG)
 
-CONFIG.update(settings.FABULOUS_SENSITIVE)
+#CONFIG.update(settings.FABULOUS_SENSITIVE)
 
 WORKON = 'workon ' + CONFIG['project_name']
 

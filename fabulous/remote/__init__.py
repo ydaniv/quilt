@@ -1,9 +1,9 @@
 import logging
 from fabric.api import prefix, task, roles, run
-from fabfile.utilities import notify
-from fabfile.remote import server
-from fabfile.remote import env
-from fabfile.config import CONFIG, WORKON, DEACTIVATE
+from fabulous.utilities import notify
+from fabulous.remote import server
+from fabulous.remote import env
+from fabulous.config import CONFIG, WORKON, DEACTIVATE
 
 try:
     from fabfile.sensitive import SENSITIVE

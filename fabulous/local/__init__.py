@@ -1,5 +1,5 @@
 from fabric.api import task, local
-from fabric.contrib import django
+from fabulous.config import CONFIG
 from fabulous.local import db
 from fabulous.local import cache
 from fabulous.local import env
@@ -33,9 +33,7 @@ def migrate():
 @task
 def test():
     notify(u'Running the project test suite.')
-    django.project('')
-    from django.conf import settings
-    project_namespace = '___________.apps.'
+    project_namespace = CONFIG['project_name'] + '.apps.'
     project_apps = []
 
     for app in settings.INSTALLED_APPS:
@@ -43,12 +41,6 @@ def test():
             project_apps.append(app[len(project_namespace):])
 
     local('python manage.py test ' + ' '.join(project_apps))
-
-
-@task
-def mock(amount=10):
-    notify(u'Creating some mock objects for the database.')
-    mock_db(amount)
 
 
 @task

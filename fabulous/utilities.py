@@ -3,12 +3,6 @@ import sys
 import random
 from fabric.api import puts
 from fabric.colors import red, green, yellow
-from fabric.contrib import django
-from fabulous.config import CONFIG
-
-django.project('')
-from django.conf import settings
-from django.core.management import call_command
 
 
 SUCCESS_PREFIX = u'Good! '
@@ -48,10 +42,6 @@ def which(name, flags=os.X_OK):
     else:
         notify(ERROR_PREFIX + name + u' is not installed.')
 
-
-def check_postgres_user(username=CONFIG['db_user']):
-    #TODO: check exists, and check has createdb perms
-    pass
 
 def sanity_check():
 
