@@ -1,5 +1,5 @@
 from fabric.api import task, local
-from fabulous.config import CONFIG
+from fabulous.config import CONFIG, django_settings
 from fabulous.local import db
 from fabulous.local import cache
 from fabulous.local import env
@@ -36,7 +36,7 @@ def test():
     project_namespace = CONFIG['project_name'] + '.apps.'
     project_apps = []
 
-    for app in settings.INSTALLED_APPS:
+    for app in django_settings.INSTALLED_APPS:
         if app.startswith(project_namespace):
             project_apps.append(app[len(project_namespace):])
 

@@ -1,58 +1,99 @@
 import datetime
 from fabric.api import env
-#from fabric.contrib import django
-#django.project('')
-#from django.conf import settings
+from fabric.contrib import django
+from django.conf import settings as django_settings
 
 
 env.use_ssh_config = True
 env.forward_agent = True
-env.user = ''
+env.user = 'robot'
 env.roledefs = {'web': ['']}
 
+
 CONFIG = {
-    'sentry_dsn': '',
-    'user': env.user,
-    'machine_location': env.roledefs['web'][0],
-    'machine_port': 80,
-    'project_name': '',
-    'project_root': '',
-    'project_env': '',
-    'db_name': '',
-    'db_user': env.user,
-    'db_dump_file': '',
-    'db_initial_data': {
-        'local': [],
-        'remote': [],
-    },
-    'app_location': '127.0.0.1',
-    'app_port': 9000,
-    'app_workers': 4,
-    'app_timeout': 30,
-    'app_wsgi': '',
-    'repo': '',
-    'branch': '',
-    'allowed_hosts': [''],
-    'cookie_domain': '',
-    'nginx_access_log': '',
-    'nginx_error_log': '',
-    'gunicorn_access_log': '',
-    'gunicorn_error_log': '',
-    'redis_access_log': '',
-    'redis_error_log': '',
+
     'timestamp': datetime.datetime.now(),
-}
-
-SENSITIVE = {
+    'user': env.user,
     'password': '',
-    'secret_key': '',
-    'email_user': '',
-    'email_password': '',
+
+    'machine': {
+        # ubuntu
+        'location': env.roledefs['web'][0],
+        'port': 80,
+    },
+
+    'project': {
+        # django
+        'name': '',
+        'root': '',
+        'env': '',
+        'allowed_hosts': [],
+        'cookie_domain': '',
+        'initial_data': {
+            'local': [],
+            'remote': [],
+        },
+        'secret_key': '',
+    },
+
+    'app': {
+        # gunicorn
+        'location': '127.0.0.1',
+        'port': 9000,
+        'workers': 4,
+        'timeout': 30,
+        'wsgi': '',
+        'access_log': '',
+        'error_log': ''
+    },
+
+    'db': {
+        # postgres
+        'user': env.user,
+        'name': '',
+        'password': '',
+        'dump_file': '',
+    },
+
+    'q': {
+        # celery
+        'location': '127.0.0.1',
+        'port': 9000,
+        'workers': 4,
+        'timeout': 30,
+        'access_log': '',
+        'error_log': ''
+    },
+
+    'cache': {
+        # redis
+        'access_log': '',
+        'error_log': '',
+    },
+
+    'proxy': {
+        # nginx
+        'access_log': '',
+        'error_log': '',
+    },
+
+    'email': {
+        'user': '',
+        'password': '',
+    },
+
+    'repository': {
+        'location': '',
+        'branch': 'develop',
+    },
+
+    'services': {
+        'sentry_dsn': '',
+    },
+
 }
 
-#CONFIG.update(settings.FABULOUS_CONFIG)
-
-#CONFIG.update(settings.FABULOUS_SENSITIVE)
+CONFIG.update(django_settings.FABULOUS)
 
 WORKON = 'workon ' + CONFIG['project_name']
 
