@@ -1,6 +1,6 @@
 import datetime
 from fabric.api import env
-from fabfile.fabulous import django_settings
+from fabfile import config
 
 
 env.use_ssh_config = True
@@ -71,7 +71,7 @@ CONFIG = {
 }
 
 
-CONFIG.update(django_settings.FABULOUS)
+CONFIG.update(config.FABULOUS)
 
 WORKON = 'workon ' + CONFIG['project_name']
 

@@ -1,9 +1,11 @@
 import logging
 from fabric.api import prefix, task, roles, run
-from fabulous.utilities import notify
-from fabulous.remote import server
+from fabulous import config
+from fabulous import utilities
+from fabulous.remote import db
+from fabulous.remote import cache
 from fabulous.remote import env
-from fabulous.config import CONFIG, WORKON, DEACTIVATE
+from fabulous.remote import server
 
 try:
     from fabfile.sensitive import SENSITIVE
@@ -16,7 +18,8 @@ except ImportError as e:
 @task
 @roles('web')
 def bootstrap():
-    notify(u'Now starting the project bootstrap sequence.')
+    utilities.notify(u'Now starting the project bootstrap sequence.')
+
     env.make()
     clone()
     env.ensure()
@@ -26,13 +29,14 @@ def bootstrap():
     collectstatic()
     server.nginx()
     server.gunicorn()
-    #server.celery()
+    server.celery()
 
 
 @task
 @roles('web')
 def upgrade():
-    notify(u'Now starting the project upgrade sequence.')
+    utilities.notify(u'Now starting the project upgrade sequence.')
+
     fetch()
     merge()
     env.ensure()
@@ -42,13 +46,14 @@ def upgrade():
     collectstatic()
     server.nginx()
     server.gunicorn()
-    #server.celery()
+    server.celery()
 
 
 @task
 @roles('web')
 def deploy():
-    notify(u'Now starting the project deploy sequence.')
+    utilities.notify(u'Now starting the project deploy sequence.')
+
     fetch()
     merge()
     validate()
@@ -60,55 +65,69 @@ def deploy():
 @task
 @roles('web')
 def clone():
-    with prefix(WORKON):
-        run('git clone ' + CONFIG['repository_location'] + ' .')
-        run(DEACTIVATE)
+    utilities.notify(u'Now cloning from the remote repository.')
+
+    with prefix(config.WORKON):
+        run('git clone ' + config.CONFIG['repository_location'] + ' .')
+        run(config.DEACTIVATE)
 
 
 @task
 @roles('web')
 def fetch():
-    with prefix(WORKON):
+    utilities.notify(u'Now fetching from the remote repository.')
+
+    with prefix(config.WORKON):
         run('git fetch')
-        run(DEACTIVATE)
+        run(config.DEACTIVATE)
 
 
 @task
 @roles('web')
 def merge():
-    with prefix(WORKON):
-        run('git merge ' + CONFIG['repository_branch'] + ' origin/' + CONFIG['repository_branch'])
-        run(DEACTIVATE)
+    utilities.notify(u'Now merging from the remote repository.')
+
+    with prefix(config.WORKON):
+        run('git merge ' + config.CONFIG['repository_branch'] + ' origin/' + config.CONFIG['repository_branch'])
+        run(config.DEACTIVATE)
 
 
 @task
 @roles('web')
 def validate():
-    with prefix(WORKON):
+    utilities.notify(u'Now running Django validations.')
+
+    with prefix(config.WORKON):
         run('python manage.py validate')
-        run(DEACTIVATE)
+        run(config.DEACTIVATE)
 
 
 @task
 @roles('web')
 def migrate():
-    with prefix(WORKON):
+    utilities.notify(u'Now running Django migrations.')
+
+    with prefix(config.WORKON):
         run('python manage.py syncdb --noinput --migrate')
-        run(DEACTIVATE)
+        run(config.DEACTIVATE)
 
 
 @task
 @roles('web')
 def collectstatic():
-    with prefix(WORKON):
+    utilities.notify(u'Now running Django static asset collector.')
+
+    with prefix(config.WORKON):
         run('python manage.py collectstatic')
-        run(DEACTIVATE)
+        run(config.DEACTIVATE)
 
 
 @task
 @roles('web')
-def command(command):
-    with prefix(WORKON):
-        run(command)
-        run(DEACTIVATE)
+def command(cmd):
+    utilities.notify(u'Now executing the command you passed.')
+
+    with prefix(config.WORKON):
+        run(cmd)
+        run(config.DEACTIVATE)
     server.restart()

@@ -1,8 +1,8 @@
 from fabric.api import task, local
-from fabulous.utilities import alert
+from fabulous import utilities
 
 
 @task
 def flush():
-    alert(u'Flushing ALL Redis keys.')
+    utilities.alert(u'Flushing ALL Redis keys.')
     local('redis-cli FLUSHALL')
