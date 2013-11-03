@@ -63,9 +63,6 @@ def sanity_check():
     which('git')
     which('hg')
     which('redis-server')
-    #which('node')
-    #which('npm')
-    #which('volo')
 
     # Check the Postgresql user exists and is configured as required
     #check_postgres_user()

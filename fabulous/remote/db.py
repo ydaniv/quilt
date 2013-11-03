@@ -4,7 +4,7 @@ from fabulous.config import CONFIG, WORKON, DEACTIVATE
 
 
 @task
-def initial_data(data_files=CONFIG['db_initial_data']['remote']):
+def initial_data(data_files=CONFIG['project_initial_data']['remote']):
     with prefix(WORKON):
         for f in data_files:
             run('python manage.py loaddata ' + f)

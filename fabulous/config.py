@@ -1,7 +1,6 @@
 import datetime
 from fabric.api import env
-from fabric.contrib import django
-from django.conf import settings as django_settings
+from fabfile.fabulous import django_settings
 
 
 env.use_ssh_config = True
@@ -11,87 +10,66 @@ env.roledefs = {'web': ['']}
 
 
 CONFIG = {
-
     'timestamp': datetime.datetime.now(),
     'user': env.user,
-    'password': '',
 
-    'machine': {
-        # ubuntu
-        'location': env.roledefs['web'][0],
-        'port': 80,
-    },
+    # machine
+    'machine_location': env.roledefs['web'][0],
+    'machine_port': 80,
 
-    'project': {
-        # django
-        'name': '',
-        'root': '',
-        'env': '',
-        'allowed_hosts': [],
-        'cookie_domain': '',
-        'initial_data': {
-            'local': [],
-            'remote': [],
-        },
-        'secret_key': '',
+    # project
+    'project_name': '',
+    'project_root': '',
+    'project_env': '',
+    'project_initial_data': {
+        'local': [],
+        'remote': [],
     },
+    'project_allowed_hosts': [''],
+    'project_cookie_domain': '',
+    'project_secret_key': '',
 
-    'app': {
-        # gunicorn
-        'location': '127.0.0.1',
-        'port': 9000,
-        'workers': 4,
-        'timeout': 30,
-        'wsgi': '',
-        'access_log': '',
-        'error_log': ''
-    },
+    # app server
+    'app_location': '127.0.0.1',
+    'app_port': 9000,
+    'app_workers': 4,
+    'app_timeout': 30,
+    'app_wsgi': '',
 
-    'db': {
-        # postgres
-        'user': env.user,
-        'name': '',
-        'password': '',
-        'dump_file': '',
-    },
+    'q_workers': 2,
+    'q_max_tasks_per_child': '',
 
-    'q': {
-        # celery
-        'location': '127.0.0.1',
-        'port': 9000,
-        'workers': 4,
-        'timeout': 30,
-        'access_log': '',
-        'error_log': ''
-    },
+    # db server
+    'db_name': '',
+    'db_user': env.user,
+    'db_password': '',
+    'db_dump_file': '',
 
-    'cache': {
-        # redis
-        'access_log': '',
-        'error_log': '',
-    },
+    # cache server
+    # any redis settings here
 
-    'proxy': {
-        # nginx
-        'access_log': '',
-        'error_log': '',
-    },
+    # email server
+    'email_user': '',
+    'email_password': '',
 
-    'email': {
-        'user': '',
-        'password': '',
-    },
+    # code repository
+    'repository_location': '',
+    'repository_branch': 'develop',
 
-    'repository': {
-        'location': '',
-        'branch': 'develop',
-    },
+    # services
+    'sentry_dsn': '',
 
-    'services': {
-        'sentry_dsn': '',
-    },
+    # logs
+    'proxy_access_log': '/srv/logs/proxy_access.log',
+    'proxy_error_log': '/srv/logs/proxy_error.log',
+    'app_access_log': '/srv/logs/app_access.log',
+    'app_error_log': '/srv/logs/app_access.log',
+    'q_access_log': '/srv/logs/q_access.log',
+    'cache_access_log': '/srv/logs/cache_access.log',
+    'cache_error_log': '/srv/logs/cache_error.log',
 
 }
+
 
 CONFIG.update(django_settings.FABULOUS)
 

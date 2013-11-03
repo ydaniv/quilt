@@ -9,8 +9,8 @@ server {
     listen      *:${machine_port};
     server_name ${domain_names};
     root                 ${project_root};
-    access_log           ${nginx_access_log};
-    error_log            ${nginx_error_log};
+    access_log           ${proxy_access_log};
+    error_log            ${proxy_error_log};
 
     location /static/ {
 
@@ -47,7 +47,7 @@ setuid ${user}
 setgid ${user}
 chdir ${project_root}
 
-exec ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} --workers ${app_workers} --timeout ${app_timeout} --access-logfile ${gunicorn_access_log} --error-logfile ${gunicorn_error_log}
+exec ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} --workers ${app_workers} --timeout ${app_timeout} --access-logfile ${app_access_log} --error-logfile ${app_error_log}
 """
 
 
@@ -65,7 +65,7 @@ setuid ${user}
 setgid ${user}
 chdir ${project_root}
 
-exec ${project_env}/bin/python manage.py celery worker --concurrency=${queue_workers} --maxtasksperchild=${queue_max_tasks_per_child} --logfile=${queue_log}
+exec ${project_env}/bin/python manage.py celery worker --concurrency=${q_workers} --maxtasksperchild=${q_max_tasks_per_child} --logfile=${q_access_log}
 
 """
 
@@ -74,9 +74,9 @@ production_settings = """### Generated via Fabric on ${timestamp}
 from ${project_name}.settings import *
 
 
-ALLOWED_HOSTS = ${allowed_hosts}
+ALLOWED_HOSTS = ${project_allowed_hosts}
 
-SESSION_COOKIE_DOMAIN = '${cookie_domain}'
+SESSION_COOKIE_DOMAIN = '${project_cookie_domain}'
 
 SENTRY_DSN = '${sentry_dsn}'
 
@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': '${db_name}',
         'USER': '${db_user}',
-        'PASSWORD': '${password}',
+        'PASSWORD': '${db_password}',
         'HOST': '',
         'PORT': '',
         'OPTIONS': {

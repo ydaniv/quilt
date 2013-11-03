@@ -61,7 +61,7 @@ def deploy():
 @roles('web')
 def clone():
     with prefix(WORKON):
-        run('git clone ' + CONFIG['repo'] + ' .')
+        run('git clone ' + CONFIG['repository_location'] + ' .')
         run(DEACTIVATE)
 
 
@@ -77,7 +77,7 @@ def fetch():
 @roles('web')
 def merge():
     with prefix(WORKON):
-        run('git merge ' + CONFIG['branch'] + ' origin/' + CONFIG['branch'])
+        run('git merge ' + CONFIG['repository_branch'] + ' origin/' + CONFIG['repository_branch'])
         run(DEACTIVATE)
 
 
