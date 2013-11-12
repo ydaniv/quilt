@@ -9,6 +9,6 @@ setup(
     author='Paul Walsh',
     author_email='paulywalsh@gmail.com',
     license='BSD',
-    packages=['fabulous', 'fabulous.local', 'fabulous.remote'],
+    packages=['fabulous'],
     zip_safe=False,
 )
