@@ -19,7 +19,8 @@ def e(environment=None):
         project_sensitive = importlib.import_module('fabfile.sensitive')
         env_config = getattr(project_config, environment.upper())
         env_sensitive = getattr(project_sensitive, environment.upper() + '_SENSITIVE')
-        env.update(environment.upper())
+        env.update(env_config)
+        env.update(env_sensitive)
         activated_environment = unicode(environment.upper())
 
     utilities.notify(u'The execution environment is ' + activated_environment)
