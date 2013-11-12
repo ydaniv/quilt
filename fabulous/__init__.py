@@ -13,14 +13,16 @@ def e(environment=None):
     utilities.notify(u'Setting the environment for this task run.')
 
     # if no environment name passed, we work on local
+    activated_environment = u'LOCAL'
     if environment:
         project_config = importlib('fabfile.config')
         project_sensitive = importlib('fabfile.sensitive')
         env_config = getattr(project_config, environment.upper())
         env_sensitive = getattr(project_sensitive, environment.upper() + '_SENSITIVE')
         env.update(environment.upper())
+        activated_environment = unicode(environment.upper())
 
-    utilities.notify(u'The execution environment is ' + unicode(environment))
+    utilities.notify(u'The execution environment is ' + activated_environment)
 
 
 @task
