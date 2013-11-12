@@ -71,5 +71,3 @@ FABULOUS_DEFAULT = {
     'log_cache_error': '/srv/logs/cache_error.log',
 
 }
-
-env.update(FABULOUS_DEFAULT)

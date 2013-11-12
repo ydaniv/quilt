@@ -1,5 +1,5 @@
 from fabric.api import env, task, sudo, run, prefix
-from fabulous import utilities
+from . import utilities
 
 
 @task

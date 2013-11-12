@@ -1,7 +1,8 @@
 import logging
 from fabric.api import env, prefix, task, roles, run
-from fabulous import cache, db, environ, server, utilities
+from . import cache, db, environ, server, utilities, config
 
+env.update(config.FABULOUS_DEFAULT)
 
 try:
     from fabfile.sensitive import SENSITIVE

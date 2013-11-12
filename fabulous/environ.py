@@ -1,8 +1,8 @@
 import logging
 from fabric.api import env, task, roles, run, prefix
 import cuisine
-from fabulous import templates
-from fabulous import utilities
+from . import templates, utilities
+
 
 try:
     from fabfile.sensitive import SENSITIVE
