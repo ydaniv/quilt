@@ -1,15 +1,23 @@
 import logging
+import importlib
 from fabric.api import env, prefix, task, roles, run
 from . import cache, db, environ, server, utilities, config
 
+
 env.update(config.FABULOUS_DEFAULT)
 
-try:
-    from fabfile.sensitive import SENSITIVE
-except ImportError as e:
-    logging.warning(u'the SENSITIVE object does not exist. Creating it as an'
-                    u' empty dictionary.')
-    SENSITIVE = {}
+
+@task
+def e(environment=None):
+    utilities.notify(u'Setting the environment for this task run.')
+
+    # if no environment name passed, we work on local
+    if environment:
+        project_config = importlib('fabfile.config')
+        project_sensitive = importlib('fabfile.sensitive')
+        env_config = getattr(project_config, environment.upper())
+        env_sensitive = getattr(project_sensitive, environment.upper() + '_SENSITIVE')
+        env.update(environment.upper())
 
 
 @task
