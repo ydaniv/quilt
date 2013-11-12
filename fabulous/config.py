@@ -11,6 +11,7 @@ FABULOUS_DEFAULT = {
     'password': '',
     'key_filename': '',
     'roledefs': {'local': ['127.0.0.1']},
+    'roles': ['local'],
     'use_ssh_config': True,
     'forward_agent': True,
 
