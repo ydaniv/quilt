@@ -20,6 +20,8 @@ def e(environment=None):
         env_sensitive = getattr(project_sensitive, environment.upper() + '_SENSITIVE')
         env.update(environment.upper())
 
+    utilities.notify(u'The execution environment is ' + unicode(environment))
+
 
 @task
 def build_remote():
