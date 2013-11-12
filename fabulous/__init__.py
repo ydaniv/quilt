@@ -1,10 +1,11 @@
 import logging
 import importlib
 from fabric.api import env, prefix, task, roles, run
-from . import cache, db, environ, server, utilities, config
-
+from . import config
 
 env.update(config.FABULOUS_DEFAULT)
+
+from . import cache, db, environ, server, utilities
 
 
 @task
