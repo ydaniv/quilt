@@ -36,7 +36,7 @@ server {
 gunicorn = """### Generated via Fabric on ${timestamp}
 # gunicorn upstart configuration for ${project_name}
 
-author "Paul Walsh"
+author "${user}"
 description "Controls Gunicorn for ${project_name}"
 
 start on (filesystem)
@@ -54,7 +54,7 @@ exec ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} 
 celery = """### Generated via Fabric on ${timestamp}
 # celery configuration for ${project_name}
 
-author "Paul Walsh"
+author "${user}"
 description "Controls Celery for ${project_name}"
 
 start on starting ${project_name}

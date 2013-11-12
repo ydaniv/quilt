@@ -1,9 +1,8 @@
 import logging
-from fabric.api import task, roles, run, prefix
+from fabric.api import env, task, roles, run, prefix
 import cuisine
 from fabulous import templates
 from fabulous import utilities
-from fabulous import config
 
 try:
     from fabfile.sensitive import SENSITIVE
@@ -18,22 +17,22 @@ except ImportError as e:
 def make():
     utilities.notify(u'Making the virtual environment.')
 
-    run('mkvirtualenv ' + config.CONFIG['project_name'])
-    run('mkdir ' + config.CONFIG['project_root'])
-    run('setvirtualenvproject ' + config.CONFIG['project_env'] + ' ' + config.CONFIG['project_root'])
+    run('mkvirtualenv ' + env.project_name)
+    run('mkdir ' + env.project_root)
+    run('setvirtualenvproject ' + env.project_env + ' ' + env.project_root)
 
 
 @task
 def settings():
     utilities.notify(u'Configuring production settings.')
 
-    with prefix(config.WORKON):
-        context = config.CONFIG
+    with prefix(env.workon):
+        context = env
         context.update(SENSITIVE)
         content = cuisine.text_template(templates.production_settings, context)
-        cuisine.file_write(config.CONFIG['project_root'] + config.CONFIG['project_name'] +
+        cuisine.file_write(env.project_root + env.project_name +
                            '/settings/production.py', content)
-        run(config.DEACTIVATE)
+        run(env.deactivate)
 
 
 @task
@@ -47,8 +46,8 @@ def ensure(extended='no'):
 def pip(extended='no'):
     utilities.notify(u'Ensuring all pip-managed Python dependencies are present.')
 
-    with prefix(config.WORKON):
+    with prefix(env.workon):
         run('pip install -U -r requirements/base.txt')
         if extended == 'yes':
             run('pip install -U -r requirements/extended.txt')
-        run(config.DEACTIVATE)
+        run(env.deactivate)

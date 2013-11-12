@@ -1,30 +1,31 @@
 import datetime
 from fabric.api import env
-from fabfile import config
 
 
-env.use_ssh_config = True
-env.forward_agent = True
-env.user = 'robot'
-env.roledefs = {'web': ['']}
+FABULOUS_DEFAULT = {
 
-
-CONFIG = {
     'timestamp': datetime.datetime.now(),
-    'user': env.user,
+
+    # fabric env
+    'user': 'robot',
+    'password': '',
+    'roledefs': {'local': ['127.0.0.1']},
+    'use_ssh_config': True,
+    'forward_agent': True,
 
     # machine
-    'machine_location': env.roledefs['web'][0],
-    'machine_port': 80,
+    'machine_location': '127.0.0.1',
+    'machine_port': 8000,
+
+    # virtualenv
+    'workon': '',
+    'deactivate': 'deactivate',
 
     # project
     'project_name': '',
     'project_root': '',
     'project_env': '',
-    'project_initial_data': {
-        'local': [],
-        'remote': [],
-    },
+    'initial_data': [''],
     'project_allowed_hosts': [''],
     'project_cookie_domain': '',
     'project_secret_key': '',
@@ -54,25 +55,21 @@ CONFIG = {
 
     # code repository
     'repository_location': '',
-    'repository_branch': 'develop',
+    'repository_work_branch': 'develop',
+    'repository_deploy_branch': 'master',
 
     # services
     'sentry_dsn': '',
 
     # logs
-    'proxy_access_log': '/srv/logs/proxy_access.log',
-    'proxy_error_log': '/srv/logs/proxy_error.log',
-    'app_access_log': '/srv/logs/app_access.log',
-    'app_error_log': '/srv/logs/app_access.log',
-    'q_access_log': '/srv/logs/q_access.log',
-    'cache_access_log': '/srv/logs/cache_access.log',
-    'cache_error_log': '/srv/logs/cache_error.log',
+    'log_proxy_access': '/srv/logs/proxy_access.log',
+    'log_proxy_error': '/srv/logs/proxy_error.log',
+    'log_app_access': '/srv/logs/app_access.log',
+    'log_app_error': '/srv/logs/app_access.log',
+    'log_q_access': '/srv/logs/q_access.log',
+    'log_cache_access': '/srv/logs/cache_access.log',
+    'log_cache_error': '/srv/logs/cache_error.log',
 
 }
 
-
-CONFIG.update(config.FABULOUS)
-
-WORKON = 'workon ' + CONFIG['project_name']
-
-DEACTIVATE = 'deactivate'
+env.update(FABULOUS_DEFAULT)
