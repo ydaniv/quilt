@@ -14,7 +14,7 @@ def e(environment=None):
 
     # if no environment name passed, we work on local
     activated_environment = u'LOCAL'
-    env.roles = 'local'
+    env.roles = ['local']
 
     if environment:
         project_config = importlib.import_module('fabfile.config')
