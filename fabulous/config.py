@@ -9,6 +9,7 @@ FABULOUS_DEFAULT = {
     # fabric env
     'user': 'robot',
     'password': '',
+    'key_filename': '',
     'roledefs': {'local': ['127.0.0.1']},
     'use_ssh_config': True,
     'forward_agent': True,
@@ -28,7 +29,7 @@ FABULOUS_DEFAULT = {
     'initial_data': [''],
     'project_allowed_hosts': [''],
     'project_cookie_domain': '',
-    'project_secret_key': '',
+    'secret_key': '',
 
     # app server
     'app_location': '127.0.0.1',
@@ -42,7 +43,7 @@ FABULOUS_DEFAULT = {
 
     # db server
     'db_name': '',
-    'db_user': env.user,
+    'db_user': '',
     'db_password': '',
     'db_dump_file': '',
 
