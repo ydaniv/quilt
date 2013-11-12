@@ -14,6 +14,8 @@ def e(environment=None):
 
     # if no environment name passed, we work on local
     activated_environment = u'LOCAL'
+    env.roles = 'local'
+
     if environment:
         project_config = importlib.import_module('fabfile.config')
         project_sensitive = importlib.import_module('fabfile.sensitive')
@@ -21,6 +23,9 @@ def e(environment=None):
         env_sensitive = getattr(project_sensitive, environment.upper() + '_SENSITIVE')
         env.update(env_config)
         env.update(env_sensitive)
+
+        env.roles = [environment]
+
         activated_environment = unicode(environment.upper())
 
     utilities.notify(u'The execution environment is ' + activated_environment)
