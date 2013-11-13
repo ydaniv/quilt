@@ -1,4 +1,4 @@
-from fabric.api import env, task, roles, run, prefix
+from fabric.api import env, task, local, prefix
 from fabulous import utilities
 
 
@@ -13,6 +13,4 @@ def ensure(extended='no'):
 def pip(extended='no'):
     utilities.notify(u'Ensuring all pip-managed Python dependencies are present.')
 
-    run('pip install -U -r requirements/base.txt')
-    if extended == 'yes':
-        run('pip install -U -r requirements/extended.txt')
+    local('pip install -U -r requirements.txt')
