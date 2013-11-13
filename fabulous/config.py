@@ -32,7 +32,7 @@ FABULOUS_DEFAULT = {
     'project_allowed_hosts': [''],
     'project_cookie_domain': '',
     'secret_key': '',
-    'target_settings_data': '',
+    'target_settings_template': '',
     'target_settings_destination': '',
 
     # app server

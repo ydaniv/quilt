@@ -1,6 +1,7 @@
 import cuisine
 from fabric.api import env, task, roles, sudo
-from fabulous import templates, utilities
+from fabulous import utilities
+from fabulous.contrib import templates
 
 
 @task
