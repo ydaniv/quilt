@@ -43,6 +43,13 @@ def which(name, flags=os.X_OK):
         notify(ERROR_PREFIX + name + u' is not installed.')
 
 
+def clean_pyc(root_path):
+    for root, dirs, files in os.walk(root_path):
+        for f in files:
+            if f.endswith('.pyc'):
+                os.remove(f)
+
+
 def sanity_check():
 
     # Ensure we are in an active virtualenv

@@ -78,6 +78,12 @@ def collectstatic():
 
 
 @task
+def clean_up(root_for_clean=env.project_root):
+    utilities.notify(u'Doing a cleanup.')
+    utilities.clean_pyc(root_for_clean)
+
+
+@task
 def test():
     utilities.notify(u'Running the project test suite.')
 
