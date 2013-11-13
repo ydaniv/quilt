@@ -1,5 +1,5 @@
 from fabric.api import task, sudo
-from . import utilities
+from fabulous import utilities
 
 
 @task

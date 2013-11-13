@@ -1,10 +1,11 @@
 import datetime
-from fabric.api import env
+from fabric.api import env, local
 
 
 FABULOUS_DEFAULT = {
 
     'timestamp': datetime.datetime.now(),
+    'runner': local,
 
     # fabric env
     'user': 'robot',
@@ -31,6 +32,8 @@ FABULOUS_DEFAULT = {
     'project_allowed_hosts': [''],
     'project_cookie_domain': '',
     'secret_key': '',
+    'target_settings_data': '',
+    'target_settings_destination': '',
 
     # app server
     'app_location': '127.0.0.1',

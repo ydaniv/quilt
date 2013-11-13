@@ -1,16 +1,7 @@
 import logging
 from fabric.api import env, task, roles, run, prefix
 import cuisine
-from . import templates, utilities
-
-
-try:
-    from fabfile.sensitive import SENSITIVE
-
-except ImportError as e:
-    logging.warning(u'the SENSITIVE object does not exist. Creating it as an'
-                    u' empty dictionary.')
-    SENSITIVE = {}
+from fabulous import utilities
 
 
 @task
@@ -28,10 +19,8 @@ def settings():
 
     with prefix(env.workon):
         context = env
-        context.update(SENSITIVE)
-        content = cuisine.text_template(templates.production_settings, context)
-        cuisine.file_write(env.project_root + env.project_name +
-                           '/settings/production.py', content)
+        content = cuisine.text_template(env.target_settings_data, context)
+        cuisine.file_write(env.project_root + env.project_name + env.target_settings_destination, content)
         run(env.deactivate)
 
 
