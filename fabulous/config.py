@@ -1,13 +1,12 @@
 import datetime
-from fabric.api import env, local
+from fabric.api import env
 
 
 FABULOUS_DEFAULT = {
 
     'timestamp': datetime.datetime.now(),
-    'runner': local,
 
-    # fabric env
+    # fabric
     'user': 'robot',
     'password': '',
     'key_filename': '',
@@ -28,7 +27,7 @@ FABULOUS_DEFAULT = {
     'project_name': '',
     'project_root': '',
     'project_env': '',
-    'initial_data': [''],
+    'initial_data': ['local/sites'],
     'project_allowed_hosts': [''],
     'project_cookie_domain': '',
     'secret_key': '',
@@ -42,17 +41,14 @@ FABULOUS_DEFAULT = {
     'app_timeout': 30,
     'app_wsgi': '',
 
-    'q_workers': 2,
-    'q_max_tasks_per_child': '',
+    # queue server
+    'queue_workers': 2,
 
     # db server
     'db_name': '',
-    'db_user': '',
+    'db_user': 'robot',
     'db_password': '',
-    'db_dump_file': '',
-
-    # cache server
-    # any redis settings here
+    'db_dump_file': '/dump_{timestamp}.sql'.format(timestamp=datetime.datetime.now()),
 
     # email server
     'email_user': '',
@@ -67,12 +63,14 @@ FABULOUS_DEFAULT = {
     'sentry_dsn': '',
 
     # logs
-    'log_proxy_access': '/srv/logs/proxy_access.log',
-    'log_proxy_error': '/srv/logs/proxy_error.log',
-    'log_app_access': '/srv/logs/app_access.log',
-    'log_app_error': '/srv/logs/app_access.log',
-    'log_q_access': '/srv/logs/q_access.log',
-    'log_cache_access': '/srv/logs/cache_access.log',
-    'log_cache_error': '/srv/logs/cache_error.log',
+    'log_proxy_access': '',
+    'log_proxy_error': '',
+    'log_app_access': '',
+    'log_app_error': '',
+    'log_queue_access': '',
+    'log_cache_access': '',
+    'log_cache_error': '',
 
 }
+
+env.update(FABULOUS_DEFAULT)

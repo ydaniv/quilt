@@ -1,9 +1,6 @@
 from fabric.api import env, task, local
-from fabulous import config, utilities
-
-env.update(config.FABULOUS_DEFAULT)
-
-from . import cache, db, environ, server
+from fabulous import utilities
+from . import environ, machine, proxy, app, db, queue, cache
 
 
 @task
@@ -15,13 +12,14 @@ def bootstrap(initial='no', environment='no', clear_cache='no'):
     else:
         db.rebuild()
 
+    migrate()
+    db.initial_data()
+
     if environment == 'yes':
         env.ensure()
 
     if clear_cache == 'yes':
         cache.flush()
-
-    migrate()
 
 
 @task
@@ -78,9 +76,10 @@ def collectstatic():
 
 
 @task
-def clean_up(root_for_clean=env.project_root):
+def clean_up():
     utilities.notify(u'Doing a cleanup.')
-    utilities.clean_pyc(root_for_clean)
+
+    utilities.clean_pyc(env.project_root + '/' + env.project_name)
 
 
 @task
@@ -89,12 +88,13 @@ def test():
 
     project_namespace = env.project_name + '.apps.'
     project_apps = []
+    declared_apps = env.django_settings.INSTALLED_APPS
 
-    #for app in django_settings.INSTALLED_APPS:
-    #    if app.startswith(project_namespace):
-    #        project_apps.append(app[len(project_namespace):])
+    for a in declared_apps:
+        if a.startswith(project_namespace):
+            project_apps.append(a[len(project_namespace):])
 
-    #local('python manage.py test ' + ' '.join(project_apps))
+    local('python manage.py test ' + ' '.join(project_apps))
 
 
 @task

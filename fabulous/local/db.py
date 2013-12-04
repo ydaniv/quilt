@@ -1,4 +1,4 @@
-from fabric.api import env, task, local, prefix
+from fabric.api import env, task, local
 from fabulous import utilities
 
 
@@ -14,7 +14,8 @@ def initial_data():
 def create():
     utilities.notify(u'Creating a new database.')
 
-    local('createdb --template template0 --encoding UTF-8 --owner {user} {name}'.format(user=env.db_user, name=env.db_name))
+    local('createdb --template template0 --encoding UTF-8 '
+          '--owner {user} {name}'.format(user=env.db_user, name=env.db_name))
 
 
 @task

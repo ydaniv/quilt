@@ -1,6 +1,5 @@
 import os
 import sys
-import random
 from fabric.api import puts
 from fabric.colors import red, green, yellow
 

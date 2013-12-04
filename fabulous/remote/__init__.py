@@ -1,11 +1,11 @@
-from fabric.api import env, prefix, task, roles, run
+from fabric.api import env, prefix, task, run
 from fabulous import utilities
-from . import cache, db, environ, server
+from . import environ, machine, proxy, app, db, queue, cache
 
 
 @task
-def build_remote():
-    utilities.notify(u'Now starting the project bootstrap sequence.')
+def build():
+    utilities.notify(u'Now building out the remote environment.')
 
     environ.make()
     clone()
@@ -14,9 +14,9 @@ def build_remote():
     validate()
     migrate()
     collectstatic()
-    server.nginx()
-    server.gunicorn()
-    #server.celery()
+    proxy.ensure()
+    app.ensure()
+    queue.ensure()
 
 
 @task
@@ -30,9 +30,9 @@ def upgrade():
     validate()
     migrate()
     collectstatic()
-    server.nginx()
-    server.gunicorn()
-    #server.celery()
+    proxy.ensure()
+    app.ensure()
+    queue.ensure()
 
 
 @task
@@ -44,7 +44,8 @@ def deploy():
     validate()
     migrate()
     collectstatic()
-    server.restart()
+    app.restart()
+    proxy.restart()
 
 
 @task
@@ -56,13 +57,17 @@ def bootstrap(initial='no', environment='no', clear_cache='no'):
     else:
         db.rebuild()
 
+    migrate()
+    db.initial_data()
+
     if environment == 'yes':
         env.ensure()
 
     if clear_cache == 'yes':
         cache.flush()
 
-    migrate()
+    app.restart()
+    proxy.restart()
 
 
 @task
@@ -71,6 +76,7 @@ def clone():
 
     with prefix(env.workon):
         run('git clone ' + env.repository_location + ' .')
+        run('git checkout ' + env.repository_deploy_branch)
         run(env.deactivate)
 
 
@@ -88,7 +94,8 @@ def merge():
     utilities.notify(u'Now merging from the remote repository.')
 
     with prefix(env.workon):
-        run('git merge ' + env.repository_work_branch + ' origin/' + env.repository_work_branch)
+        run('git merge ' + env.repository_deploy_branch + ' origin/' + env.repository_deploy_branch)
+        run('git checkout ' + env.repository_deploy_branch)
         run(env.deactivate)
 
 
@@ -125,12 +132,13 @@ def test():
 
     project_namespace = env.project_name + '.apps.'
     project_apps = []
+    declared_apps = env.django_settings.INSTALLED_APPS
 
-    #for app in django_settings.INSTALLED_APPS:
-    #    if app.startswith(project_namespace):
-    #        project_apps.append(app[len(project_namespace):])
+    for a in declared_apps:
+       if a.startswith(project_namespace):
+           project_apps.append(a[len(project_namespace):])
 
-    #local('python manage.py test ' + ' '.join(project_apps))
+    run('python manage.py test ' + ' '.join(project_apps))
 
 
 @task
@@ -141,9 +149,13 @@ def sanity():
 
 
 @task
-def command(cmd):
+def command(cmd, activate='no'):
     utilities.notify(u'Now executing the command you passed.')
 
-    with prefix(env.workon):
+    if activate == 'yes':
+
+        with prefix(env.workon):
+            run(cmd)
+            run(env.deactivate)
+    else:
         run(cmd)
-        run(env.deactivate)

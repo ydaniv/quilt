@@ -1,5 +1,4 @@
-import logging
-from fabric.api import env, task, roles, run, prefix
+from fabric.api import env, task, run, prefix
 import cuisine
 from fabulous import utilities
 
@@ -14,29 +13,28 @@ def make():
 
 
 @task
-def settings():
+def ensure():
+    utilities.notify(u'Ensuring all project dependencies are present.')
+
+    pip()
+    ensure_settings()
+
+
+@task
+def ensure_settings():
     utilities.notify(u'Configuring production settings.')
 
     with prefix(env.workon):
         context = env
         content = cuisine.text_template(env.target_settings_data, context)
-        cuisine.file_write(env.project_root + env.project_name + env.target_settings_destination, content)
+        cuisine.file_write(env.target_settings_destination, content)
         run(env.deactivate)
 
 
 @task
-def ensure(extended='no'):
-    utilities.notify(u'Ensuring all project dependencies are present.')
-
-    pip(extended=extended)
-
-
-@task
-def pip(extended='no'):
+def pip():
     utilities.notify(u'Ensuring all pip-managed Python dependencies are present.')
 
     with prefix(env.workon):
-        run('pip install -U -r requirements/base.txt')
-        if extended == 'yes':
-            run('pip install -U -r requirements/extended.txt')
+        run('pip install -U -r requirements.txt')
         run(env.deactivate)

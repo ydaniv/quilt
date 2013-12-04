@@ -1,4 +1,4 @@
-from fabric.api import env, task, sudo, run, prefix
+from fabric.api import env, task, run, prefix
 from fabulous import utilities
 
 
@@ -16,14 +16,15 @@ def initial_data():
 def create():
     utilities.notify(u'Creating a new database.')
 
-    sudo('createdb --template template0 --encoding UTF-8 --owner {user} {name}'.format(user=env.db_user, name=env.db_name))
+    run('createdb --template template0 --encoding UTF-8 '
+        '--owner {user} {name}'.format(user=env.db_user, name=env.db_name))
 
 
 @task
 def drop():
     utilities.alert(u'Dropping the database.')
 
-    sudo('dropdb {name}'.format(name=env.db_name))
+    run('dropdb {name}'.format(name=env.db_name))
 
 
 @task
@@ -38,7 +39,7 @@ def rebuild():
 def createuser():
     utilities.notify(u'Creating a new database user.')
 
-    sudo('createuser --createdb {name}'.format(name=env.db_user))
+    run('createuser --createdb {name}'.format(name=env.db_user))
 
 
 @task
