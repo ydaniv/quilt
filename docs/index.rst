@@ -3,7 +3,7 @@ Fabulous
 
 Fabulous is an opinionated set of Fabric tasks for local development and remote deployment of web apps.
 
-The package is an *alpha release*, in large because the stack to be orchestrated are not yet configurable.
+The package is an *alpha release*, in large because the stack to be orchestrated is not yet configurable.
 
 Currently supported stack:
 
