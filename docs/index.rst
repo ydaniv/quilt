@@ -22,7 +22,7 @@ Design goals
 
 Some of the broader design goals for Fabulous.
 
-* Standardized developer API for common actions, both in development and deployment
+* Standardized CLI for common actions, both in development and deployment
 * Fabulous does not deal with machine configuration, use a better tool like Salt or Puppet instead
 
 
@@ -42,9 +42,8 @@ Table of contents
 =================
 
 .. toctree::
-:maxdepth: 1
-
-       guide/start
+   :maxdepth: 1
+   guide/start
 
 
 Indices and tables
