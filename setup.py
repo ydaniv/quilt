@@ -1,14 +1,24 @@
 from setuptools import setup
 
 
+with open('README.rst') as f:
+    long_description = f.read()
+
+
 setup(
-    name='fabulous',
-    version='0.1',
-    description='Fabulous is a simple set of Fabric tasks for use in small Django and Flask projects.',
-    url='https://github.com/pwalsh/fabulous',
+    name='Quilt',
+    version='0.1-alpha',
+    description='Quilt is an opinionated set of Fabric tasks for local '
+                'development and remote deployment of web apps.',
+    long_description=long_description,
+    url='https://github.com/pwalsh/quilt',
     author='Paul Walsh',
     author_email='paulywalsh@gmail.com',
     license='BSD',
-    packages=['fabulous', 'fabulous.local', 'fabulous.remote', 'fabulous.contrib'],
+    packages=['quilt', 'quilt.local', 'quilt.remote', 'quilt.contrib'],
+    install_requires=[
+        "Fabric >= 1.8.0",
+        "cuisine >= 0.6.5",
+    ],
     zip_safe=False,
 )

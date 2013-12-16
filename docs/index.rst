@@ -1,7 +1,7 @@
-Fabulous
-========
+Patchwork
+=========
 
-Fabulous is an opinionated set of Fabric tasks for local development and remote deployment of web apps.
+Patchwork is an opinionated set of Fabric tasks for local development and remote deployment of web apps.
 
 The package is an *alpha release*, in large because the stack to be orchestrated is not yet configurable.
 
@@ -20,7 +20,7 @@ If this matches your stack, you are good to go. If not, set a bookmark and come 
 Design goals
 ============
 
-Some of the broader design goals for Fabulous.
+Some of the broader design goals for Patchwork.
 
 * Standardized CLI for common actions, both in development and deployment
 * Fabulous does not deal with machine configuration, use a better tool like Salt or Puppet instead
@@ -31,11 +31,11 @@ Ways to contribute
 
 You can contribute to the project in a number of ways:
 
-**Write some code**: https://github.com/pwalsh/fabulous
+**Write some code**: https://github.com/pwalsh/patchwork
 
-**Read the docs**: http://fabulous.readthedocs.org/
+**Read the docs**: http://patchwork.readthedocs.org/
 
-**Tackle an open issue**: https://github.com/pwalsh/fabulous/issues
+**Tackle an open issue**: https://github.com/pwalsh/patchwork/issues
 
 
 Table of contents
