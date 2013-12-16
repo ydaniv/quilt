@@ -2,7 +2,7 @@ import datetime
 from fabric.api import env
 
 
-FABULOUS_DEFAULT = {
+QUILT = {
 
     'timestamp': datetime.datetime.now(),
 
@@ -73,4 +73,4 @@ FABULOUS_DEFAULT = {
 
 }
 
-env.update(FABULOUS_DEFAULT)
+env.update(QUILT)

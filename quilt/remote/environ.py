@@ -1,6 +1,6 @@
 from fabric.api import env, task, run, prefix
 import cuisine
-from fabulous import utilities
+from quilt import utilities
 
 
 @task

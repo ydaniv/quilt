@@ -1,5 +1,5 @@
 from fabric.api import env, task, local
-from fabulous import utilities
+from quilt import utilities
 from . import environ, machine, proxy, app, db, queue, cache
 
 

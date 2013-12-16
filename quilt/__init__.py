@@ -1,13 +1,13 @@
 from fabric.api import env, task
-from fabulous import local, remote, contrib, config, utilities
-from fabfile import config
+from quilt import local, remote, contrib, config, utilities
+from fabfile import quilt
 
 
 @task
 def e(environment='local'):
     utilities.notify(u'Setting the environment for this task run.')
 
-    env_config = getattr(config, environment.upper())
+    env_config = getattr(quilt, environment.upper())
     env.update(env_config)
     env.roles = [environment]
 

@@ -1,6 +1,6 @@
 import cuisine
 from fabric.api import env, task, sudo
-from fabulous import utilities, contrib
+from quilt import utilities, contrib
 
 
 @task
