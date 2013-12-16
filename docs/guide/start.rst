@@ -1,7 +1,9 @@
 Start
 =====
 
-If you've used Fabric before, you'll understand the general principles in Fabulous. If not, it might be a good idea to get a bit familiar with the Fabric documentation, to understand the broader goals of Fabric, and the possible use cases for it:
+If you've used Fabric before, you'll understand the general principles in Quilt.
+
+If not, it might be a good idea to get a bit familiar with the Fabric documentation, to understand the broader goals of Fabric, and the possible use cases for it:
 
 http://fabfile.org/
 
@@ -10,17 +12,17 @@ Installation
 
 Install from pip::
 
-    pip install fabulous
+    pip install quilt
 
 Or, install with pip directly from Github::
 
-    pip install git+https://github.com/pwalsh/fabulous.git
+    pip install git+https://github.com/pwalsh/quilt.git
 
 Create a `fabfile` in your project.
 
 In general, this can be either a module or a package named `fabfile` at the root of your codebase.
 
-For Fabulous, we require a package, as we want to setup a few basic files::
+For Quilt, we require a package, as we want to setup a few basic files::
 
     cd {YOUR_PROJECT}
     mkdir fabfile
@@ -36,7 +38,7 @@ The `sensitive.py` file will be used for sensitive deployment data like password
 
 Next, add the following to `fabfile/__init__.py`::
 
-        from fabulous import *
+        from quilt import *
 
 Next, add the following to `fabfile/config.py`::
 
@@ -72,6 +74,8 @@ Next, add the following to `fabfile/sensitive.py`::
             'email_password': '',
         }
 
-Now, we have the basics to work with Fabulous locally. See the avaiable Fabric tasks that come with Fabulous::
+Now, we have the basics to work with Quilt locally.
+
+To see the available Fabric tasks that come with Quilt::
 
     fab -l
