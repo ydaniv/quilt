@@ -16,6 +16,7 @@ QUILT = {
     'forward_agent': True,
 
     # machine
+    # TODO: remove
     'machine_location': '127.0.0.1',
     'machine_port': 8000,
 
@@ -35,6 +36,8 @@ QUILT = {
     'target_settings_destination': '',
 
     # app server
+    'app_machine_location': '127.0.0.1',
+    'app_machine_port': 8000,
     'app_location': '127.0.0.1',
     'app_port': 9000,
     'app_workers': 4,
@@ -42,9 +45,13 @@ QUILT = {
     'app_wsgi': '',
 
     # queue server
+    'queue_machine_location': '127.0.0.1',
+    'queue_machine_port': 8000,
     'queue_workers': 2,
 
     # db server
+    'db_machine_location': '127.0.0.1',
+    'db_machine_port': 8000,
     'db_name': '',
     'db_user': 'robot',
     'db_password': '',
