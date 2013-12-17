@@ -34,6 +34,16 @@ def rebuild():
 
 
 @task
+def drop_connections():
+    utilities.warn(u'Drop all active connections.')
+
+    local('psql --pset=format=unaligned -c "SELECT pg_terminate_backend(pg_stat_activity.pid) '
+          'FROM pg_stat_activity WHERE pg_stat_activity.datname = ' + '\'' + env.db_name + '\'' +
+          ' AND pid <> pg_backend_pid();"')
+
+
+
+@task
 def createuser():
     utilities.notify(u'Creating a new database user.')
 
