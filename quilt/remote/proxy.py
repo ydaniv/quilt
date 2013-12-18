@@ -10,7 +10,7 @@ def ensure():
     context = env
     context.update({'domain_names': ' '.join(env.project_allowed_hosts)})
     cuisine.mode_sudo()
-    content = cuisine.text_template(contrib.templates.nginx, context)
+    content = cuisine.text_template(contrib.templates.proxy, context)
     cuisine.file_write('/etc/nginx/sites-enabled/' + env.project_name, content)
     restart()
 
