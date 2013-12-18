@@ -9,7 +9,6 @@ def e(environment='local'):
 
     env_config = getattr(quilt_config, environment.upper())
     env.update(env_config)
-    env.roles = [environment]
 
     try:
         from fabfile import quilt_sensitive
