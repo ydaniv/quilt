@@ -1,11 +1,19 @@
 import os
 import sys
-from fabric.api import puts
+from fabric.api import puts, env
 from fabric.colors import red, green, yellow
+from . import config
 
 
 SUCCESS_PREFIX = u'Good! '
 ERROR_PREFIX = u'Oh Noes! '
+
+
+def get_role(target_role):
+    if target_role in env.roles:
+        return target_role
+    else:
+        return config.QUILT_DEFAULT_ROLE
 
 
 def notify(msg):

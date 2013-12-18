@@ -1,11 +1,12 @@
 import cuisine
-from fabric.api import env, task, sudo
+from fabric.api import env, task, roles, sudo
 from quilt import utilities, contrib
 
 
+@roles(utilities.get_role('proxy'))
 @task
 def ensure():
-    utilities.notify(u'Configuring nginx.')
+    utilities.notify(u'Configuring the proxy server.')
 
     context = env
     context.update({'domain_names': ' '.join(env.project_allowed_hosts)})
@@ -15,22 +16,25 @@ def ensure():
     restart()
 
 
+@roles(utilities.get_role('proxy'))
 @task
 def start():
-    utilities.notify(u'Starting the app server.')
+    utilities.notify(u'Starting the proxy server.')
 
     sudo('service nginx start')
 
 
+@roles(utilities.get_role('proxy'))
 @task
 def stop():
-    utilities.notify(u'Stopping the app server.')
+    utilities.notify(u'Stopping the proxy server.')
 
     sudo('service nginx start')
 
 
+@roles(utilities.get_role('proxy'))
 @task
 def restart():
-    utilities.notify(u'Restarting the app server.')
+    utilities.notify(u'Restarting the proxy server.')
 
     sudo('service nginx start')

@@ -2,6 +2,9 @@ import datetime
 from fabric.api import env
 
 
+QUILT_DEFAULT_ROLE = 'default'
+
+
 QUILT = {
 
     'timestamp': datetime.datetime.now(),
@@ -10,8 +13,8 @@ QUILT = {
     'user': 'robot',
     'password': '',
     'key_filename': '',
-    'roledefs': {'local': ['127.0.0.1']},
-    'roles': ['local'],
+    'roledefs': {'default': ['127.0.0.1']},
+    'roles': ['default'],
     'use_ssh_config': True,
     'forward_agent': True,
 
