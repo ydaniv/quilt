@@ -14,7 +14,6 @@ QUILT = {
     'password': '',
     'key_filename': '',
     'roledefs': {'default': ['127.0.0.1']},
-    'roles': ['default'],
     'use_ssh_config': True,
     'forward_agent': True,
 
