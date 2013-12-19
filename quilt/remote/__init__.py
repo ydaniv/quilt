@@ -13,6 +13,7 @@ def build():
     db.create()
     validate()
     migrate()
+    db.initial_data()
     collectstatic()
     proxy.ensure()
     app.ensure()
