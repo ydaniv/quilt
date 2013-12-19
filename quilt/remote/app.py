@@ -3,7 +3,7 @@ from fabric.api import env, task, roles, sudo
 from quilt import utilities, contrib
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def ensure():
     utilities.notify(u'Configuring gunicorn.')
@@ -15,7 +15,7 @@ def ensure():
     restart()
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def start():
     utilities.notify(u'Starting the app server.')
@@ -23,7 +23,7 @@ def start():
     sudo('service ' + env.project_name + ' start')
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def stop():
     utilities.notify(u'Stopping the app server.')
@@ -31,7 +31,7 @@ def stop():
     sudo('service ' + env.project_name + ' stop')
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def restart():
     utilities.notify(u'Restarting the app server.')

@@ -2,7 +2,7 @@ from fabric.api import task, roles, sudo
 from quilt import utilities
 
 
-@roles(utilities.get_role('cache'))
+@roles('cache')
 @task
 def flush():
     utilities.alert(u'Flushing ALL Redis keys.')

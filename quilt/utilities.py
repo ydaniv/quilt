@@ -9,11 +9,14 @@ SUCCESS_PREFIX = u'Good! '
 ERROR_PREFIX = u'Oh Noes! '
 
 
-def get_role(target_role):
-    if target_role in env.roles:
-        return target_role
-    else:
-        return config.QUILT_DEFAULT_ROLE
+# TODO: THIS WASN"T WORKING, RECONSIDER
+# use case was @roles(get_role('something'))
+#
+# def get_role(target_role):
+#     if target_role in env.roles:
+#         return target_role
+#     else:
+#         return config.QUILT_DEFAULT_ROLE
 
 
 def notify(msg):

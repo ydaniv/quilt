@@ -3,7 +3,7 @@ from fabric.api import env, task, roles, sudo
 from quilt import utilities, contrib
 
 
-@roles(utilities.get_role('proxy'))
+@roles('proxy')
 @task
 def ensure():
     utilities.notify(u'Configuring the proxy server.')
@@ -16,7 +16,7 @@ def ensure():
     restart()
 
 
-@roles(utilities.get_role('proxy'))
+@roles('proxy')
 @task
 def start():
     utilities.notify(u'Starting the proxy server.')
@@ -24,7 +24,7 @@ def start():
     sudo('service nginx start')
 
 
-@roles(utilities.get_role('proxy'))
+@roles('proxy')
 @task
 def stop():
     utilities.notify(u'Stopping the proxy server.')
@@ -32,7 +32,7 @@ def stop():
     sudo('service nginx start')
 
 
-@roles(utilities.get_role('proxy'))
+@roles('proxy')
 @task
 def restart():
     utilities.notify(u'Restarting the proxy server.')

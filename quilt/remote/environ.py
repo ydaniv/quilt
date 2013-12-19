@@ -3,7 +3,7 @@ import cuisine
 from quilt import utilities
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def make():
     utilities.notify(u'Making the virtual environment.')
@@ -13,7 +13,7 @@ def make():
     run('setvirtualenvproject ' + env.project_env + ' ' + env.project_root)
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def ensure():
     utilities.notify(u'Ensuring all project dependencies are present.')
@@ -22,7 +22,7 @@ def ensure():
     ensure_settings()
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def ensure_settings():
     utilities.notify(u'Configuring production settings.')
@@ -34,7 +34,7 @@ def ensure_settings():
         run(env.deactivate)
 
 
-@roles(utilities.get_role('app'))
+@roles('app')
 @task
 def pip():
     utilities.notify(u'Ensuring all pip-managed Python dependencies are present.')
