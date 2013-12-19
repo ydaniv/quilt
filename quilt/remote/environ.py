@@ -1,4 +1,4 @@
-from fabric.api import env, task, roles, run, prefix
+from fabric.api import env, task, roles, run, prefix, execute
 import cuisine
 from quilt import utilities
 
@@ -32,13 +32,12 @@ def clean():
     run('setvirtualenvproject ' + env.project_env + ' ' + env.project_root)
 
 
-@roles('app')
 @task
 def ensure():
     utilities.notify(u'Ensuring all project dependencies are present.')
 
-    pip()
-    ensure_settings()
+    execute(pip)
+    execute(ensure_settings)
 
 
 @roles('app')

@@ -2,7 +2,7 @@ from fabric.api import env, task, roles, run, prefix
 from quilt import utilities
 
 
-@roles('db')
+@roles('app')
 @task
 def initial_data():
     utilities.notify(u'Loading initial data.')

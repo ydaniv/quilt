@@ -1,77 +1,73 @@
-from fabric.api import env, prefix, task, roles, run
+from fabric.api import env, prefix, task, roles, run, execute
 from quilt import utilities
 from . import environ, machine, proxy, app, db, queue, cache
 
 
-@roles('app')
 @task
 def build():
     utilities.notify(u'Now building out the remote environment.')
 
-    environ.make()
-    clone()
-    environ.ensure()
-    db.create()
-    validate()
-    migrate()
-    db.initial_data()
-    collectstatic()
-    proxy.ensure()
-    app.ensure()
-    queue.ensure()
+    execute(environ.make)
+    execute(clone)
+    execute(environ.ensure)
+    execute(db.create)
+    execute(validate)
+    execute(migrate)
+    execute(db.initial_data)
+    execute(collectstatic)
+    execute(proxy.ensure)
+    execute(app.ensure)
+    execute(queue.ensure)
 
 
-@roles('app')
 @task
 def upgrade():
     utilities.notify(u'Now starting the project upgrade sequence.')
 
-    fetch()
-    merge()
-    environ.ensure()
-    validate()
-    migrate()
-    collectstatic()
-    proxy.ensure()
-    app.ensure()
-    queue.ensure()
+    execute(fetch)
+    execute(merge)
+    execute(environ.ensure)
+    execute(validate)
+    execute(migrate)
+    execute(collectstatic)
+    execute(proxy.ensure)
+    execute(app.ensure)
+    execute(queue.ensure)
 
 
-@roles('app')
 @task
 def deploy():
     utilities.notify(u'Now starting the project deploy sequence.')
 
-    fetch()
-    merge()
-    validate()
-    migrate()
-    collectstatic()
-    app.restart()
-    proxy.restart()
+    execute(fetch)
+    execute(merge)
+    execute(validate)
+    execute(migrate)
+    execute(collectstatic)
+    execute(app.restart)
+    execute(proxy.restart)
 
 
-@roles('app')
 @task
 def bootstrap(initial='no', environment='no', clear_cache='no'):
     utilities.notify(u'Bootstrapping the project. Hold on tight.')
 
     if initial == 'yes':
-        db.create()
+        execute(db.create)
     else:
-        db.rebuild()
+        execute(db.rebuild)
 
-    migrate()
-    db.initial_data()
+    execute(migrate)
+    execute(db.initial_data)
 
     if environment == 'yes':
-        env.ensure()
+        execute(env.ensure)
 
     if clear_cache == 'yes':
-        cache.flush()
+        execute(cache.flush)
 
-    app.restart()
-    proxy.restart()
+    execute(app.restart)
+    execute(proxy.restart)
 
 
 @roles('app')
