@@ -10,6 +10,7 @@ def build():
     environ.make()
     clone()
     environ.ensure()
+    db.create()
     validate()
     migrate()
     collectstatic()
