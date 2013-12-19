@@ -15,6 +15,25 @@ def make():
 
 @roles('app')
 @task
+def clean():
+    utilities.notify(u'Clean all dependencies in the virtual environment.')
+
+    run('rmvirtualenv ' + env.project_name)
+    run('mkvirtualenv ' + env.project_name)
+    run('setvirtualenvproject ' + env.project_env + ' ' + env.project_root)
+
+
+@roles('app')
+@task
+def destroy():
+    utilities.notify(u'Destroying the whole virtual environment.')
+
+    run('rmvirtualenv ' + env.project_name)
+    run('rm -r ' + env.project_root)
+
+
+@roles('app')
+@task
 def ensure():
     utilities.notify(u'Ensuring all project dependencies are present.')
 
