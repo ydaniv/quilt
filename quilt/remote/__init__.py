@@ -1,8 +1,9 @@
-from fabric.api import env, prefix, task, run
+from fabric.api import env, prefix, task, roles, run
 from quilt import utilities
 from . import environ, machine, proxy, app, db, queue, cache
 
 
+@roles('app')
 @task
 def build():
     utilities.notify(u'Now building out the remote environment.')
@@ -20,6 +21,7 @@ def build():
     queue.ensure()
 
 
+@roles('app')
 @task
 def upgrade():
     utilities.notify(u'Now starting the project upgrade sequence.')
@@ -35,6 +37,7 @@ def upgrade():
     queue.ensure()
 
 
+@roles('app')
 @task
 def deploy():
     utilities.notify(u'Now starting the project deploy sequence.')
@@ -48,6 +51,7 @@ def deploy():
     proxy.restart()
 
 
+@roles('app')
 @task
 def bootstrap(initial='no', environment='no', clear_cache='no'):
     utilities.notify(u'Bootstrapping the project. Hold on tight.')
@@ -70,6 +74,7 @@ def bootstrap(initial='no', environment='no', clear_cache='no'):
     proxy.restart()
 
 
+@roles('app')
 @task
 def clone():
     utilities.notify(u'Now cloning from the remote repository.')
@@ -80,6 +85,7 @@ def clone():
         run(env.deactivate)
 
 
+@roles('app')
 @task
 def fetch():
     utilities.notify(u'Now fetching from the remote repository.')
@@ -89,6 +95,7 @@ def fetch():
         run(env.deactivate)
 
 
+@roles('app')
 @task
 def merge():
     utilities.notify(u'Now merging from the remote repository.')
@@ -99,6 +106,7 @@ def merge():
         run(env.deactivate)
 
 
+@roles('app')
 @task
 def validate():
     utilities.notify(u'Now running Django validations.')
@@ -108,6 +116,7 @@ def validate():
         run(env.deactivate)
 
 
+@roles('app')
 @task
 def migrate():
     utilities.notify(u'Now running Django migrations.')
@@ -117,6 +126,7 @@ def migrate():
         run(env.deactivate)
 
 
+@roles('app')
 @task
 def collectstatic():
     utilities.notify(u'Now running Django static asset collector.')
@@ -126,6 +136,7 @@ def collectstatic():
         run(env.deactivate)
 
 
+@roles('app')
 @task
 def test():
     utilities.notify(u'Running the project test suite.')
@@ -141,6 +152,7 @@ def test():
     run('python manage.py test ' + ' '.join(project_apps))
 
 
+@roles('app')
 @task
 def sanity():
     utilities.notify(u'Starting the project sanity check. Here come the notifications:\n')
@@ -148,6 +160,7 @@ def sanity():
     utilities.sanity_check()
 
 
+@roles('app')
 @task
 def command(cmd, activate='no'):
     utilities.notify(u'Now executing the command you passed.')
