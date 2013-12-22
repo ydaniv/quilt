@@ -1,18 +1,18 @@
 from fabric.api import env, task
 from quilt import local, remote, contrib, config, utilities
-from fabfile import quilt_config
+from fabfile import quilt
 
 
 @task
 def e(environment='local'):
     utilities.notify(u'Setting the environment for this task run.')
 
-    env_config = getattr(quilt_config, environment.upper())
+    env_config = getattr(quilt.config, environment.upper())
     env.update(env_config)
 
     try:
-        from fabfile import quilt_sensitive
-        env_sensitive = getattr(quilt_sensitive, environment.upper())
+        from quilt import sensitive
+        env_sensitive = getattr(quilt.sensitive, environment.upper())
         env.update(env_sensitive)
     except ImportError:
         pass
