@@ -1,5 +1,5 @@
 import cuisine
-from fabric.api import env, task, roles, sudo
+from fabric.api import env, task, roles, sudo, execute
 from quilt import utilities, contrib
 
 
@@ -13,7 +13,7 @@ def ensure():
     cuisine.mode_sudo()
     content = cuisine.text_template(env.proxy_template or contrib.templates.proxy, context)
     cuisine.file_write('/etc/nginx/sites-enabled/' + env.project_name, content)
-    restart()
+    execute(restart)
 
 
 @roles('proxy')
@@ -29,7 +29,7 @@ def start():
 def stop():
     utilities.notify(u'Stopping the proxy server.')
 
-    sudo('service nginx start')
+    sudo('service nginx stop')
 
 
 @roles('proxy')
@@ -37,4 +37,4 @@ def stop():
 def restart():
     utilities.notify(u'Restarting the proxy server.')
 
-    sudo('service nginx start')
+    sudo('service nginx restart')
