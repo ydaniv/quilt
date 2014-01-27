@@ -4,6 +4,8 @@
 *.iml
 *.pyc
 *.db
+*.sublime-project
+*.sublime-workspace
 /dist/
 /*.egg-info
 .coverage
