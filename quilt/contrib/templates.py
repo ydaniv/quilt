@@ -47,7 +47,7 @@ setuid ${user}
 setgid ${user}
 chdir ${project_root}
 
-exec ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} --workers ${app_workers} --timeout ${app_timeout} --access-logfile ${log_app_access} --error-logfile ${log_app_error}
+exec ${app_cmd_prefix} ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} --workers ${app_workers} --timeout ${app_timeout} --access-logfile ${log_app_access} --error-logfile ${log_app_error}
 """
 
 

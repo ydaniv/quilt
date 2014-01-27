@@ -45,6 +45,7 @@ QUILT = {
     'app_workers': 4,
     'app_timeout': 30,
     'app_wsgi': '',
+    'app_cmd_prefix': '',
 
     # queue server
     'queue_machine_location': '127.0.0.1',
