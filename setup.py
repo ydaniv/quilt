@@ -6,7 +6,7 @@ with open('README.rst') as f:
 
 
 setup(
-    name='Quilt',
+    name='quilt',
     version='0.1.1-alpha',
     description='(WIP) Quilt is an opinionated set of Fabric tasks for local '
                 'development and remote deployment of web apps.',
