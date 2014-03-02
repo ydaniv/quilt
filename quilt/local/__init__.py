@@ -38,6 +38,7 @@ def clone():
     utilities.notify(u'Now cloning from the remote repository.')
 
     local('git clone ' + env.repository_location + ' .')
+    local('git checkout ' + env.repository_branch)
 
 
 @task
@@ -51,7 +52,8 @@ def fetch():
 def merge():
     utilities.notify(u'Now merging from the remote repository.')
 
-    local('git merge ' + env.repository_work_branch + ' origin/' + env.repository_work_branch)
+    local('git merge ' + env.repository_branch + ' origin/' + env.repository_branch)
+    local('git checkout ' + env.repository_branch)
 
 
 @task
@@ -88,11 +90,10 @@ def test():
 
     project_namespace = env.project_name + '.apps.'
     project_apps = []
-    declared_apps = env.django_settings.INSTALLED_APPS
 
-    for a in declared_apps:
-        if a.startswith(project_namespace):
-            project_apps.append(a[len(project_namespace):])
+    for a in env.project_packages:
+       if a.startswith(project_namespace):
+           project_apps.append(a[len(project_namespace):])
 
     local('python manage.py test ' + ' '.join(project_apps))
 

@@ -1,22 +1,14 @@
 import os
 import sys
-from fabric.api import puts, env
+import datetime
+import importlib
+from fabric.api import env, puts
 from fabric.colors import red, green, yellow
-from . import config
+from quilt import config
 
 
 SUCCESS_PREFIX = u'Good! '
 ERROR_PREFIX = u'Oh Noes! '
-
-
-# TODO: THIS WASN"T WORKING, RECONSIDER
-# use case was @roles(get_role('something'))
-#
-# def get_role(target_role):
-#     if target_role in env.roles:
-#         return target_role
-#     else:
-#         return config.QUILT_DEFAULT_ROLE
 
 
 def notify(msg):
@@ -31,9 +23,43 @@ def alert(msg):
     return puts(red(msg))
 
 
-# This which function is copied from twisted.
-# http://twistedmatrix.com/trac/browser/tags/releases/twisted-13.1.0/twisted/python/procutils.py
+def set_on_env(properties, env):
+    """Updates the Fabric env with new properties."""
+
+    if properties:
+        properties = convert_strings_to_symbols(properties)
+        env.update(properties)
+        env.update({'timestamp': datetime.datetime.now()})
+
+    return env
+
+
+def convert_strings_to_symbols(properties):
+    """Convert candidate strings into symbols, as per configuration."""
+
+    for k, v in properties.iteritems():
+        if k in config.QUILT_STRING_TO_SYMBOL_KEYS and v:
+            properties[k] = get_symbol_from_string(v)
+
+    return properties
+
+
+def get_symbol_from_string(pathstring):
+    """Extract and return a variable, function or Class from a string."""
+
+    module_path, symbol = pathstring.rsplit('.', 1)
+    mod = importlib.import_module(module_path)
+    symbol = getattr(mod, symbol)
+
+    return symbol
+
+
 def which(name, flags=os.X_OK):
+    """Checks if a program exists on the PATH.
+
+    Lifted from:
+    http://twistedmatrix.com/trac/browser/tags/releases/twisted-13.1.0/twisted/python/procutils.py
+    """
     result = []
     exts = filter(None, os.environ.get('PATHEXT', '').split(os.pathsep))
     path = os.environ.get('PATH', None)
@@ -61,8 +87,8 @@ def clean_pyc(root_path):
 
 
 def sanity_check():
+    """Checks if the programs we expect to be available for this project are present."""
 
-    # Ensure we are in an active virtualenv
     if hasattr(sys, 'real_prefix'):
         notify(SUCCESS_PREFIX + u'You have an activated virtual environment.')
     else:

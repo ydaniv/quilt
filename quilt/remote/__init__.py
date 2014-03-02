@@ -77,7 +77,7 @@ def clone():
 
     with prefix(env.workon):
         run('git clone ' + env.repository_location + ' .')
-        run('git checkout ' + env.repository_deploy_branch)
+        run('git checkout ' + env.repository_branch)
         run(env.deactivate)
 
 
@@ -97,8 +97,8 @@ def merge():
     utilities.notify(u'Now merging from the remote repository.')
 
     with prefix(env.workon):
-        run('git merge ' + env.repository_deploy_branch + ' origin/' + env.repository_deploy_branch)
-        run('git checkout ' + env.repository_deploy_branch)
+        run('git merge ' + env.repository_branch + ' origin/' + env.repository_branch)
+        run('git checkout ' + env.repository_branch)
         run(env.deactivate)
 
 
@@ -139,9 +139,8 @@ def test():
 
     project_namespace = env.project_name + '.apps.'
     project_apps = []
-    declared_apps = env.django_settings.INSTALLED_APPS
 
-    for a in declared_apps:
+    for a in env.project_packages:
        if a.startswith(project_namespace):
            project_apps.append(a[len(project_namespace):])
 

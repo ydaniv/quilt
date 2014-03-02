@@ -11,8 +11,8 @@ def ensure():
     context = env
     context.update({'domain_names': ' '.join(env.project_allowed_hosts)})
     cuisine.mode_sudo()
-    content = cuisine.text_template(env.proxy_template or contrib.templates.proxy, context)
-    cuisine.file_write('/etc/nginx/sites-enabled/' + env.project_name, content)
+    content = cuisine.text_template(env.proxy_config_template, context)
+    cuisine.file_write(env.proxy_config_file, content)
     execute(restart)
 
 
@@ -21,7 +21,7 @@ def ensure():
 def start():
     utilities.notify(u'Starting the proxy server.')
 
-    sudo('service nginx start')
+    sudo(env.proxy_command_start)
 
 
 @roles('proxy')
@@ -29,7 +29,7 @@ def start():
 def stop():
     utilities.notify(u'Stopping the proxy server.')
 
-    sudo('service nginx stop')
+    sudo(env.proxy_command_stop)
 
 
 @roles('proxy')
@@ -37,4 +37,4 @@ def stop():
 def restart():
     utilities.notify(u'Restarting the proxy server.')
 
-    sudo('service nginx restart')
+    sudo(env.proxy_command_restart)

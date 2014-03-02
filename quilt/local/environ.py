@@ -7,8 +7,6 @@ def ensure():
     utilities.notify(u'Ensuring all project dependencies are present.')
 
     pip()
-    bower()
-    npm()
 
 
 @task

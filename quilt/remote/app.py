@@ -10,8 +10,8 @@ def ensure():
 
     context = env
     cuisine.mode_sudo()
-    content = cuisine.text_template(contrib.templates.app, context)
-    cuisine.file_write('/etc/init/' + env.project_name + '.conf', content)
+    content = cuisine.text_template(env.app_config_template, context)
+    cuisine.file_write(env.app_config_file, content)
     restart()
 
 
@@ -20,7 +20,7 @@ def ensure():
 def start():
     utilities.notify(u'Starting the app server.')
 
-    sudo('service ' + env.project_name + ' start')
+    sudo(env.app_command_start)
 
 
 @roles('app')
@@ -28,7 +28,7 @@ def start():
 def stop():
     utilities.notify(u'Stopping the app server.')
 
-    sudo('service ' + env.project_name + ' stop')
+    sudo(env.app_command_stop)
 
 
 @roles('app')
@@ -36,4 +36,4 @@ def stop():
 def restart():
     utilities.notify(u'Restarting the app server.')
 
-    sudo('service ' + env.project_name + ' restart')
+    sudo(env.app_command_restart)
