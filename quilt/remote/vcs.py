@@ -1,4 +1,4 @@
-from fabric.api import env, prefix, task, roles, run,
+from fabric.api import env, prefix, task, roles, run
 from quilt import utilities
 
 
