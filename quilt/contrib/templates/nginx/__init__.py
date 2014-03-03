@@ -90,6 +90,7 @@ http {
             proxy_redirect          off;
             proxy_pass              http://${project_name};
         }
+    }
 }
 """
 
