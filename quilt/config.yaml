@@ -2,8 +2,6 @@ user: robot
 password:
 key_filename:
 roledefs:
-  default:
-    - 127.0.0.1
   app:
     - 127.0.0.1
   proxy:
