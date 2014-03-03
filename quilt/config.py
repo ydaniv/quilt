@@ -1,5 +1,6 @@
 QUILT_STRING_TO_SYMBOL_KEYS = [
     'project_packages',
+    'project_config_template',
     'proxy_config_template',
     'proxy_management_template',
     'app_config_template',
