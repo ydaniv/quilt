@@ -39,7 +39,7 @@ proxy_location: 127.0.0.1
 proxy_port: 80
 proxy_ssl_certificate:
 proxy_ssl_certificate_key:
-proxy_connection_scheme: http://
+proxy_connection_scheme: "http://"
 proxy_workers: 4
 proxy_timeout: 30
 proxy_accesslog:
