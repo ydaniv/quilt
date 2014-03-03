@@ -68,6 +68,11 @@ queue_command_restart: supervisorctl restart queue
 queue_command_update: supervisorctl update
 queue_location: 127.0.0.1
 queue_port: 8000
+queue_broker: 127.0.0.1:6379/0
+queue_backend: 127.0.0.1:6379/0
+queue_max_cached_results: 5000
+queue_accept_content: ['JSON']
+queue_schedule:
 queue_workers: 4
 queue_instance:
 queue_accesslog:
