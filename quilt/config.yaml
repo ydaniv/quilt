@@ -53,7 +53,7 @@ app_command_stop: supervisorctl stop app
 app_command_restart: supervisorctl restart app
 app_command_update: supervisorctl update
 app_location: 127.0.0.1
-app_port: 8000
+app_port: 9000
 app_workers: 4
 app_timeout: 30
 app_instance:
