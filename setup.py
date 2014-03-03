@@ -15,7 +15,11 @@ setup(
     author='Paul Walsh',
     author_email='paulywalsh@gmail.com',
     license='BSD',
-    packages=['quilt', 'quilt.local', 'quilt.remote', 'quilt.contrib'],
+    packages=['quilt', 'quilt.local', 'quilt.remote', 'quilt.contrib',
+              'quilt.contrib.templates', 'quilt.contrib.templates.celery',
+              'quilt.contrib.templates.gunicorn', 'quilt.contrib.templates.nginx',
+              'quilt.contrib.templates.postgres', 'quilt.contrib.templates.redis',
+              'quilt.contrib.templates.rq'],
     install_requires=["Fabric >= 1.8.0", "PyYAML", "cuisine >= 0.6.5"],
     zip_safe=False,
 )
