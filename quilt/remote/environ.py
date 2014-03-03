@@ -47,15 +47,15 @@ def ensure_settings():
 
     with prefix(env.workon):
         context = env
-        content = cuisine.text_template(env.target_settings_data, context)
-        cuisine.file_write(env.target_settings_destination, content)
+        content = cuisine.text_template(env.project_config_template, context)
+        cuisine.file_write(env.project_config_file, content)
         run(env.deactivate)
 
 
 @roles('app')
 @task
 def pip():
-    utilities.notify(u'Ensuring all pip-managed Python dependencies are present.')
+    utilities.notify(u'Ensuring all Python dependencies are present.')
 
     with prefix(env.workon):
         run('pip install -U -r requirements.txt')

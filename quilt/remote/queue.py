@@ -6,7 +6,7 @@ from quilt import utilities
 @roles('queue')
 @task
 def ensure():
-    """Ensures the Queue configuration and process management is in place."""
+    """Ensures the queue configuration and process management is in place."""
 
     utilities.notify(u'Ensuring the queue is configured correctly.')
 
@@ -17,7 +17,7 @@ def ensure():
 @roles('queue')
 @task
 def config():
-    """Ensures the Queue configuration is in place."""
+    """Ensures the queue configuration is in place."""
 
     utilities.notify(u'Ensuring the queue configuration settings.')
 
@@ -31,7 +31,7 @@ def config():
 @roles('queue')
 @task
 def management():
-    """Ensures the Queue process management is in place."""
+    """Ensures the queue process management is in place."""
 
     utilities.notify(u'Ensuring the queue management settings.')
 
@@ -39,13 +39,14 @@ def management():
     cuisine.mode_sudo()
     content = cuisine.text_template(env.queue_management_template, context)
     cuisine.file_write(env.queue_management_file, content)
+    execute(update)
     execute(restart)
 
 
 @roles('queue')
 @task
 def start():
-    """Start the Queue process."""
+    """Start the queue process."""
 
     utilities.notify(u'Starting the queue server.')
 
@@ -55,7 +56,7 @@ def start():
 @roles('queue')
 @task
 def stop():
-    """Stop the Queue process."""
+    """Stop the queue process."""
 
     utilities.notify(u'Stopping the queue server.')
 
@@ -65,8 +66,18 @@ def stop():
 @roles('queue')
 @task
 def restart():
-    """Restart the Queue process."""
+    """Restart the queue process."""
 
     utilities.notify(u'Restarting the queue server.')
 
     sudo(env.queue_command_restart)
+
+
+@roles('queue')
+@task
+def update():
+    """Update the process manager with changes to the queue configration."""
+
+    utilities.notify(u'Updating the queue process manager.')
+
+    sudo(env.queue_command_update)
