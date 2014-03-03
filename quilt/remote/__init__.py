@@ -1,14 +1,16 @@
 from fabric.api import env, prefix, task, roles, run, execute
 from quilt import utilities
-from . import environ, machine, proxy, app, db, queue, cache
+from . import environ, machine, proxy, app, db, queue, cache, vcs
 
 
 @task
 def build():
+    """A sequence that makes the initial build of the project environment."""
+
     utilities.notify(u'Now building out the remote environment.')
 
     execute(environ.make)
-    execute(clone)
+    execute(vcs.clone)
     execute(environ.ensure)
     execute(db.create)
     execute(validate)
@@ -21,35 +23,9 @@ def build():
 
 
 @task
-def upgrade():
-    utilities.notify(u'Now starting the project upgrade sequence.')
-
-    execute(fetch)
-    execute(merge)
-    execute(environ.ensure)
-    execute(validate)
-    execute(migrate)
-    execute(collectstatic)
-    execute(proxy.ensure)
-    execute(app.ensure)
-    execute(queue.ensure)
-
-
-@task
-def deploy():
-    utilities.notify(u'Now starting the project deploy sequence.')
-
-    execute(fetch)
-    execute(merge)
-    execute(validate)
-    execute(migrate)
-    execute(collectstatic)
-    execute(app.restart)
-    execute(proxy.restart)
-
-
-@task
 def bootstrap(initial='no', environment='no', clear_cache='no'):
+    """A sequence the cleans and rebuilds the project environment."""
+
     utilities.notify(u'Bootstrapping the project. Hold on tight.')
 
     if initial == 'yes':
@@ -70,41 +46,43 @@ def bootstrap(initial='no', environment='no', clear_cache='no'):
     execute(proxy.restart)
 
 
-@roles('app')
 @task
-def clone():
-    utilities.notify(u'Now cloning from the remote repository.')
+def upgrade():
+    """A sequence that upgrades the project codebase and dependencies."""
 
-    with prefix(env.workon):
-        run('git clone ' + env.repository_location + ' .')
-        run('git checkout ' + env.repository_branch)
-        run(env.deactivate)
+    utilities.notify(u'Now starting the project upgrade sequence.')
+
+    execute(vcs.fetch)
+    execute(vcs.merge)
+    execute(environ.ensure)
+    execute(validate)
+    execute(migrate)
+    execute(collectstatic)
+    execute(proxy.ensure)
+    execute(app.ensure)
+    execute(queue.ensure)
 
 
-@roles('app')
 @task
-def fetch():
-    utilities.notify(u'Now fetching from the remote repository.')
+def deploy():
+    """A sequence that deploys new code to a target."""
 
-    with prefix(env.workon):
-        run('git fetch')
-        run(env.deactivate)
+    utilities.notify(u'Now starting the project deploy sequence.')
 
-
-@roles('app')
-@task
-def merge():
-    utilities.notify(u'Now merging from the remote repository.')
-
-    with prefix(env.workon):
-        run('git merge ' + env.repository_branch + ' origin/' + env.repository_branch)
-        run('git checkout ' + env.repository_branch)
-        run(env.deactivate)
+    execute(vcs.fetch)
+    execute(vcs.merge)
+    execute(validate)
+    execute(migrate)
+    execute(collectstatic)
+    execute(app.restart)
+    execute(proxy.restart)
 
 
 @roles('app')
 @task
 def validate():
+    """Run validation checks over the codebase."""
+
     utilities.notify(u'Now running Django validations.')
 
     with prefix(env.workon):
@@ -115,6 +93,8 @@ def validate():
 @roles('app')
 @task
 def migrate():
+    """Run data migrations for the project."""
+
     utilities.notify(u'Now running Django migrations.')
 
     with prefix(env.workon):
@@ -125,6 +105,8 @@ def migrate():
 @roles('app')
 @task
 def collectstatic():
+    """Run static resource management for the project."""
+
     utilities.notify(u'Now running Django static asset collector.')
 
     with prefix(env.workon):
@@ -135,14 +117,16 @@ def collectstatic():
 @roles('app')
 @task
 def test():
+    """Run tests for the project code."""
+
     utilities.notify(u'Running the project test suite.')
 
     project_namespace = env.project_name + '.apps.'
     project_apps = []
 
     for a in env.project_packages:
-       if a.startswith(project_namespace):
-           project_apps.append(a[len(project_namespace):])
+        if a.startswith(project_namespace):
+            project_apps.append(a[len(project_namespace):])
 
     run('python manage.py test ' + ' '.join(project_apps))
 
@@ -150,7 +134,10 @@ def test():
 @roles('app')
 @task
 def sanity():
-    utilities.notify(u'Starting the project sanity check. Here come the notifications:\n')
+    """Run a check on all project dependencies."""
+
+    utilities.notify(u'Starting the project sanity check. '
+                     'Here come the notifications:\n')
 
     utilities.sanity_check()
 
@@ -158,6 +145,8 @@ def sanity():
 @roles('app')
 @task
 def command(cmd, activate='no'):
+    """Execute a command."""
+
     utilities.notify(u'Now executing the command you passed.')
 
     if activate == 'yes':
