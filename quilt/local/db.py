@@ -6,7 +6,7 @@ from quilt import utilities
 def initial_data():
     utilities.notify(u'Loading initial data.')
 
-    for f in env.initial_data:
+    for f in env.project_initial_data:
         local('python manage.py loaddata ' + f)
 
 
