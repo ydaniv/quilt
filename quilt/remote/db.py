@@ -80,7 +80,7 @@ def load():
     utilities.notify(u'Loading data into the database.')
 
     execute(rebuild)
-    run('psql ' + env.db_name + '--username=' + env.db_user ' --file=' + env.db_dump_file)
+    run('psql ' + env.db_name + '--username=' + env.db_user + ' --file=' + env.db_dump_file)
 
 
 @roles('db')
