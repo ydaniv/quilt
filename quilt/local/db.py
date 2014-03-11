@@ -56,7 +56,7 @@ def load():
     utilities.notify(u'Loading data into the database.')
 
     rebuild()
-    local('psql ' + env.db_name + '--username=' + env.db_user + ' --file=' + env.db_dump_file)
+    local('psql ' + env.db_name + ' --username=' + env.db_user + ' --file=' + env.db_dump_file)
 
 
 @task
