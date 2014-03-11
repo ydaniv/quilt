@@ -16,6 +16,7 @@ use_ssh_config: true
 forward_agent: true
 workon:
 deactivate: deactivate
+project_framework: django
 project_name:
 project_root:
 project_env:
