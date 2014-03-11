@@ -56,11 +56,11 @@ def load():
     utilities.notify(u'Loading data into the database.')
 
     rebuild()
-    local('psql ' + env.db_name + ' < ' + env.db_dump_file)
+    local('psql ' + env.db_name + '--username=' + env.db_user ' --file=' + env.db_dump_file)
 
 
 @task
 def dump():
     utilities.notify(u'Creating a dump of the current database.')
 
-    local('pg_dump ' + env.db_name + ' > ' + env.db_dump_file)
+    local('pg_dump ' + env.db_name + ' --no-owner --no-privileges --no-acl --file=' + env.db_dump_file)

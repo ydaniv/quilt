@@ -80,7 +80,7 @@ def load():
     utilities.notify(u'Loading data into the database.')
 
     execute(rebuild)
-    run('psql ' + env.db_name + ' < ' + env.db_dump_file)
+    run('psql ' + env.db_name + '--username=' + env.db_user ' --file=' + env.db_dump_file)
 
 
 @roles('db')
@@ -90,7 +90,7 @@ def dump():
 
     utilities.notify(u'Creating a dump of the current database.')
 
-    run('pg_dump ' + env.db_name + ' > ' + env.db_dump_file)
+    run('pg_dump ' + env.db_name + ' --no-owner --no-privileges --no-acl --file=' + env.db_dump_file)
 
 
 @roles('db')
