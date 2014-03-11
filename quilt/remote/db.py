@@ -11,8 +11,9 @@ def initial_data():
     utilities.notify(u'Loading initial data.')
 
     with prefix(env.workon):
-        for f in env.project_initial_data:
-            run('python manage.py loaddata ' + f)
+        if env.project_initial_data:
+            for f in env.project_initial_data:
+                local('python manage.py loaddata ' + f)
         run(env.deactivate)
 
 
