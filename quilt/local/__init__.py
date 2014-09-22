@@ -33,17 +33,17 @@ def upgrade():
     vcs.fetch()
     vcs.merge()
     environ.ensure()
-    validate()
+    check()
     migrate()
 
 
 @task
-def validate():
+def check():
     """Run validation checks over the codebase."""
 
     utilities.notify(u'Now running Django validations.')
 
-    local('python manage.py validate')
+    local('python manage.py check')
 
 
 @task
@@ -52,7 +52,7 @@ def migrate():
 
     utilities.notify(u'Now running Django migrations.')
 
-    local('python manage.py syncdb --noinput --migrate')
+    local('python manage.py migrate --noinput')
 
 
 @task
@@ -79,14 +79,7 @@ def test():
 
     utilities.notify(u'Running the project test suite.')
 
-    project_namespace = env.project_name + '.apps.'
-    project_apps = []
-
-    for a in env.project_packages:
-        if a.startswith(project_namespace):
-            project_apps.append(a[len(project_namespace):])
-
-    local('python manage.py test ' + ' '.join(project_apps))
+    local('python manage.py test')
 
 
 @task
