@@ -121,14 +121,7 @@ def test():
 
     utilities.notify(u'Running the project test suite.')
 
-    project_namespace = env.project_name + '.apps.'
-    project_apps = []
-
-    for a in env.project_packages:
-        if a.startswith(project_namespace):
-            project_apps.append(a[len(project_namespace):])
-
-    run('python manage.py test ' + ' '.join(project_apps))
+    run('python manage.py test')
 
 
 @roles('app')
