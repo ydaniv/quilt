@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import os
 import yaml
 from fabric.api import env, task
